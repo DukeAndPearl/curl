@@ -4833,7 +4833,6 @@ AC_HELP_STRING([--disable-dnsshuffle],[Disable DNS shuffling]),
 dnl ************************************************************
 dnl switch on/off alt-svc
 dnl
-curl_altsvc_msg="no      (--enable-alt-svc)";
 AC_MSG_CHECKING([whether to support alt-svc])
 AC_ARG_ENABLE(alt-svc,
 AC_HELP_STRING([--enable-alt-svc],[Enable alt-svc support])
@@ -4841,6 +4840,8 @@ AC_HELP_STRING([--disable-alt-svc],[Disable alt-svc support]),
 [ case "$enableval" in
   no)
        AC_MSG_RESULT(no)
+       AC_DEFINE(CURL_DISABLE_ALTSVC, 1, [disable alt-svc])
+       curl_altsvc_msg="no";
        ;;
   *) AC_MSG_RESULT(yes)
        curl_altsvc_msg="enabled";
@@ -4849,11 +4850,6 @@ AC_HELP_STRING([--disable-alt-svc],[Disable alt-svc support]),
   esac ],
        AC_MSG_RESULT(no)
 )
-
-if test "$enable_altsvc" = "yes"; then
-  AC_DEFINE(USE_ALTSVC, 1, [to enable alt-svc])
-  experimental="$experimental alt-svc"
-fi
 
 dnl *************************************************************
 dnl check whether ESNI support, if desired, is actually available
